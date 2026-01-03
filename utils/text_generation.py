@@ -33,10 +33,9 @@ def generate_scientific_title():
   domain = random.choice(domains)
   adj = random.choice(adjectives) if random.random() < 0.5 else ""
   title = f"{verb} {adj} {domain}".strip()
-  return " ".join(title.split())  # remove double spaces if adj is empty
+  return " ".join(title.split())
 
 def generate_scientific_intro():
-  # Simple template-based intro
   intro_templates = [
     "This study presents the latest research on {domain}.",
     "We explore novel methodologies in {domain} for improved performance.",

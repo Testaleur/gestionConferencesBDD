@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recherche conférences</title>
+</head>
+<body>
+  <h1>Recherche de conférences</h1>
+  <form method="post">
+    <input type="text" name="search" placeholder="Mots-clés">
+    <input type="submit" value="Rechercher">
+    <br>
+    <small>(exemple : bases data spatial)</small>
+  </form>
+
+  {% if results is not none %}
+    <h2>Résultats ({{ results|length }}) :</h2>
+
+    {% if results|length == 0 %}
+      <p>Aucun résultat trouvé pour cette recherche.</p>
+    {% else %}
+      <ul>
+      {% for _, row in results.iterrows() %}
+        <li>{{ row.starting_date }} : {{ row.title }} — {{ row.key_words }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endif %}
+
+</body>
+</html>

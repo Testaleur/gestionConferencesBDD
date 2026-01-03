@@ -1,0 +1,5 @@
+- make the results (and the site) way more beautiful
+- click on results of a request (display details on a person, on a conference)
+- add a dropdown menu to select if you're a user / moderator / respo => it doesnt show the same data
+- repasser sur les commentaires, la lisibilité du code
+- virer dossier public ?
