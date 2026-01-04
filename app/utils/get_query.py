@@ -95,9 +95,9 @@ def get_query_session_by_conf_id(role, id_conference):
 		WHERE s.id_conference = {id_conference}
 	"""
 
-def get_query_responsables_by_conf_id(role, id_conference):
+def get_query_responsables_by_conf_id(id_conference):
   return f"""
-		SELECT r.*, p.name, p.first_name
+		SELECT r.id_responsable, r.pro_adress, r.type, p.name AS person_name, p.first_name
 		FROM direction d
 		JOIN responsable r ON d.id_responsable = r.id_responsable
 		JOIN personne p ON r.id_personne = p.id_personne

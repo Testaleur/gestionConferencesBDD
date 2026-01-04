@@ -1,12 +1,5 @@
-- make the results (and the site) way more beautiful
-- click on results of a request (display details on a person, on a conference)
-- add edit/delete button to conf for a respo / Admin OK manque pour soumissions, sessions (à mettre dans rapport)
-- mettre dans rapport : option de lier un workshop à une conf
 - add a research by the user profile / the respo own conferences
-- repasser sur les commentaires, la lisibilité du code
-- gestion des mots de passe / comptes
-
-9️⃣ Statistiques simples (bonus très apprécié)
+- Statistiques simples
 nombre de conférences par :
 pays
 série
@@ -14,3 +7,14 @@ type
 nombre de workshops par conférence
 nombre de responsables par conférence
 conférences les plus actives (soumissions / sessions)
+
+- make the results (and the site) way more beautiful
+- repasser sur les commentaires, la lisibilité du code
+
+==============
+to do (hors projet) à mettre dans rapport
+- edit profile (for users)
+- option de lier un workshop à une conf
+- option de créer une conf en tant que respo
+- edit soumissions, sessions en tant que respo
+- gestion des mots de passe / comptes
