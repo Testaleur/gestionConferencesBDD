@@ -1,0 +1,46 @@
+{% if results is not none %}
+	<h2>Résultats ({{ results|length }}) pour {{  }}:</h2>
+
+	{% if results|length == 0 %}
+		<p>Aucun résultat trouvé pour cette recherche.</p>
+	{% else %}
+		<table border="1" cellpadding="5" cellspacing="0">
+			<thead>
+				<tr>
+					<th>Date début</th>
+					<th>Date fin</th>
+					<th>Titre</th>
+					<th>Mots-clés</th>
+          <th>City</th>
+          <th>Université</th>
+					{% if role != "Utilisateur" %}
+						<th>Éditeur</th>
+					{% endif %}
+					{% if role == "Admin" %}
+						<th>Type</th>
+						<th>Conf associée</th>
+					{% endif %}
+				</tr>
+			</thead>
+			<tbody>
+				{% for _, row in results.iterrows() %}
+					<tr>
+						<td>{{ row.starting_date }}</td>
+						<td>{{ row.ending_date }}</td>
+						<td>{{ row.title }}</td>
+						<td>{{ row.key_words }}</td>
+            <td>{{ row.city }} ({{ row.country }})</td>
+            <td>{{ row.universite_name }}</td>
+						{% if role != "Utilisateur" %}
+            <td>{{ row.editor }}</td>
+						{% endif %}
+						{% if role == "Admin" %}
+							<td>{{ row.type }}</td>
+							<td>{{ row.conf_associee }}</td>
+						{% endif %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+{% endif %}

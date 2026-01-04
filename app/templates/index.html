@@ -18,19 +18,7 @@
     <small>(exemple : bases data spatial)</small>
   </form>
 
-  {% if results is not none %}
-    <h2>Résultats ({{ results|length }}) :</h2>
-
-    {% if results|length == 0 %}
-      <p>Aucun résultat trouvé pour cette recherche.</p>
-    {% else %}
-      <ul>
-      {% for _, row in results.iterrows() %}
-        <li>{{ row.starting_date }} : {{ row.title }} — {{ row.key_words }}</li>
-      {% endfor %}
-      </ul>
-    {% endif %}
-  {% endif %}
+  {% include "render.html" %}
 
 </body>
 </html>

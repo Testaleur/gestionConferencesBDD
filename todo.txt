@@ -1,5 +1,184 @@
 - make the results (and the site) way more beautiful
 - click on results of a request (display details on a person, on a conference)
-- add a dropdown menu to select if you're a user / moderator / respo => it doesnt show the same data
 - repasser sur les commentaires, la lisibilité du code
-- virer dossier public ?
+
+2️⃣ Recherche et consultation des conférences (cœur du site)
+🔹 Recherche par mots-clés
+
+🔹 Filtres simples (checkbox / select)
+
+Type :
+
+Conférence
+
+Workshop
+
+Série :
+
+SDH
+
+CAISE
+
+TedTalk
+
+Éditeur
+
+Pays / ville
+
+Université organisatrice
+
+🔹 Filtres temporels
+
+année (2025 / 2026)
+
+période (date début / date fin)
+
+conférences à venir / passées
+
+3️⃣ Affichage des résultats (selon le rôle)
+🔹 Champs visibles selon le rôle
+👤 Utilisateur
+
+Titre
+
+Dates
+
+Ville / pays
+
+Mots-clés
+
+Série
+
+Type (Conference / Workshop)
+
+🎓 Responsable
+
+Tout ce que voit l’utilisateur
+
+Université organisatrice
+
+Sessions associées
+
+Soumissions reçues (nombre)
+
+🛠️ Administrateur
+
+Tout
+
+ID internes
+
+Éditeur
+
+Conférence associée (pour workshops)
+
+Responsables / comités
+
+Liens vers modification / suppression
+
+4️⃣ Navigation entre entités (très important)
+🔹 Depuis une conférence
+
+voir ses workshops associés
+
+voir ses sessions
+
+voir les responsables
+
+voir les soumissions
+
+🔹 Depuis un responsable
+
+voir les conférences dirigées
+
+voir les sessions évaluées
+
+🔹 Depuis un utilisateur
+
+voir les conférences correspondant à ses intérêts
+
+5️⃣ Fonctionnalités autour des workshops
+
+Liste des workshops d’une conférence donnée
+
+Distinction visuelle (badge “Workshop”)
+
+Lien vers la conférence principale
+
+6️⃣ Fonctionnalités autour des éditeurs
+
+Liste des conférences publiées par un éditeur
+
+Filtre par éditeur
+
+Statistiques simples :
+
+nombre de conférences par éditeur
+
+7️⃣ Sessions et évaluations
+🔹 Sessions
+
+liste des sessions par conférence
+
+thèmes de la session (issus des mots-clés de la conférence)
+
+🔹 Évaluations
+
+responsables assignés à une session
+
+sessions évaluées par un responsable
+
+8️⃣ Soumissions
+🔹 Pour chaque conférence
+
+nombre de soumissions
+
+catégories de soumissions
+
+dates clés :
+
+deadline
+
+notification
+
+soumission
+
+🔹 Filtres
+
+par catégorie
+
+par date (avant / après deadline)
+
+9️⃣ Statistiques simples (bonus très apprécié)
+
+nombre de conférences par :
+
+pays
+
+série
+
+type
+
+nombre de workshops par conférence
+
+nombre de responsables par conférence
+
+conférences les plus actives (soumissions / sessions)
+
+🔟 Interface utilisateur basique mais efficace
+🔹 Éléments simples
+
+menu principal (Conférences / Responsables / Utilisateurs)
+
+filtres visibles / repliables
+
+affichage en liste ou tableau
+
+message clair quand aucun résultat
+
+🔹 Qualité UX
+
+nombre de résultats affiché
+
+pagination simple
+
+tri (date, titre)

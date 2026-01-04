@@ -43,16 +43,16 @@ def login():
 # Page principale
 @app.route("/index", methods=["GET", "POST"])
 def index():
-    if 'role' not in session:
-        return redirect(url_for("login"))
+  if 'role' not in session:
+    return redirect(url_for("login"))
 
-    results = None
-    if request.method == "POST":
-        search_query = request.form.get("search")
-        if search_query:
-            keywords = search_query.split()
-            results = get_conferences_by_keywords(DB_PATH, session['role'], keywords)
-    return render_template("index.html", results=results, role=session['role'], name=session['name'], user_id=session['user_id'])
+  results = None
+  if request.method == "POST":
+    search_query = request.form.get("search")
+    if search_query:
+      keywords = search_query.split()
+      results = get_conferences_by_keywords(DB_PATH, session['role'], keywords)
+  return render_template("index.html", results=results, role=session['role'], name=session['name'], user_id=session['user_id'])
 
 # déconnexion
 @app.route("/logout")
