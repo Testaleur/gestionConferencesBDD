@@ -1,0 +1,22 @@
+<h2>Éditer la conférence</h2>
+<br>
+<p>Connecté en tant que : <strong>{{ name }}</strong> ({{ role }} | id {{ role }} = {{ user_id }})</p>
+  <a href="{{ url_for('logout') }}">Déconnexion</a>
+  <br><br>
+	<a href="{{ url_for('back_to_results') }}">← Retour à la recherche</a>
+	<br><br>
+
+<form method="post">
+  Titre: <input type="text" name="title" value="{{ conference['title'] }}"><br>
+  Début: <input type="date" name="starting_date" value="{{ conference['starting_date'] }}"><br>
+  Fin: <input type="date" name="ending_date" value="{{ conference['ending_date'] }}"><br>
+  Ville: <input type="text" name="city" value="{{ conference['city'] }}"><br>
+  Pays: <input type="text" name="country" value="{{ conference['country'] }}"><br>
+  Série: <input type="text" name="series" value="{{ conference['series'] }}"><br>
+  Introduction: <textarea name="introduction">{{ conference['introduction'] }}</textarea><br>
+  Mots-clés: <input type="text" name="key_words" value="{{ conference['key_words'] }}"><br>
+  Éditeur: <input type="text" name="editor" value="{{ conference['editor'] }}"><br>
+
+  <button type="submit">Enregistrer</button>
+</form>
+<a href="{{ url_for('conference_detail', id_conference=conference['id_conference']) }}">Retour</a>

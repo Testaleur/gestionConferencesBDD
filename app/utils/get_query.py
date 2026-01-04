@@ -88,3 +88,32 @@ def get_query_by_role_keywords(role, words, filters=None):
 
   return query_base, params_extra
 
+def get_query_session_by_conf_id(role, id_conference):
+  return f"""
+		SELECT s.*
+		FROM session s
+		WHERE s.id_conference = {id_conference}
+	"""
+
+def get_query_responsables_by_conf_id(role, id_conference):
+  return f"""
+		SELECT r.*, p.name, p.first_name
+		FROM direction d
+		JOIN responsable r ON d.id_responsable = r.id_responsable
+		JOIN personne p ON r.id_personne = p.id_personne
+		WHERE d.id_conference = {id_conference}
+	"""
+
+def get_query_soumissions_by_conf_id(role, id_conference):
+  return f"""
+		SELECT *
+		FROM soumission
+		WHERE id_conference = {id_conference}
+	"""
+
+def get_query_workshops_by_conf_id(role, id_conference):
+  return f"""
+		SELECT c.id_conference, c.title
+		FROM conference c
+		WHERE c.type = 'Workshop' AND c.associated_conf = {id_conference}
+	"""

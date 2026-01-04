@@ -7,24 +7,27 @@
 		<table border="1" cellpadding="5" cellspacing="0">
 			<thead>
 				<tr>
+					{% if role == "Admin" %}
+						<th>Conf id</th>
+					{% endif %}
 					<th>Date début</th>
 					<th>Date fin</th>
 					<th>Titre</th>
-					<th>Mots-clés</th>
           <th>City</th>
           <th>Université</th>
+					<th>Type</th>
+					<th>Conf associée</th>
 					{% if role != "Utilisateur" %}
 						<th>Éditeur</th>
-					{% endif %}
-					{% if role == "Admin" %}
-						<th>Type</th>
-						<th>Conf associée</th>
 					{% endif %}
 				</tr>
 			</thead>
 			<tbody>
 				{% for _, row in results.iterrows() %}
 					<tr>
+						{% if role == "Admin" %}
+						<td>{{ row.id_conference }}</td>
+						{% endif %}
 						<td>{{ row.starting_date }}</td>
 						<td>{{ row.ending_date }}</td>
 						<td>
@@ -32,15 +35,20 @@
                 {{ row.title }}
               </a>
             </td>
-						<td>{{ row.key_words }}</td>
             <td>{{ row.city }} ({{ row.country }})</td>
             <td>{{ row.universite_name }}</td>
+						<td>{{ row.type }}</td>
+						<td>
+							{% if row.conf_associee %}
+								<a href="{{ url_for('conference_detail', id_conference=row.associated_conf) }}">
+									{{ row.conf_associee }}
+								</a>
+							{% else %}
+								-
+							{% endif %}
+						</td>
 						{% if role != "Utilisateur" %}
             <td>{{ row.editor }}</td>
-						{% endif %}
-						{% if role == "Admin" %}
-							<td>{{ row.type }}</td>
-							<td>{{ row.conf_associee }}</td>
 						{% endif %}
 					</tr>
 				{% endfor %}

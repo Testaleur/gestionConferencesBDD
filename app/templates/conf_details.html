@@ -9,30 +9,151 @@
   <p>Connecté en tant que : <strong>{{ name }}</strong> ({{ role }} | id {{ role }} = {{ user_id }})</p>
   <a href="{{ url_for('logout') }}">Déconnexion</a>
   <br><br>
+	<a href="{{ url_for('back_to_results') }}">← Retour à la recherche</a>
+	<br><br>
 
 	<h2>{{ conf.title }}</h2>
-	<p><strong>Date :</strong> {{ conf.starting_date }} → {{ conf.ending_date }}</p>
-	<p><strong>Lieu :</strong> {{ conf.city }}, {{ conf.country }}</p>
-	<p><strong>Série :</strong> {{ conf.series }}</p>
-	<p><strong>Mots-clés :</strong> {{ conf.key_words }}</p>
 	<p><strong>Université :</strong> {{ conf.universite_name }}</p>
+	<p><strong>Type :</strong> {{ conf.type }}</p>
+	<p><strong>Conférence associée :</strong>
+		{% if conf.conf_associee %}
+			<a href="{{ url_for('conference_detail', id_conference=conf.associated_conf) }}">
+				{{ conf.conf_associee }}
+			</a>
+		{% else %}
+			-
+		{% endif %}
+	</p>
+	<p><strong>Key words :</strong> {{ conf.key_words }}</p>
+	<p><strong>Éditeur :</strong> {{ conf.editor }}</p>
+	<p><strong>Dates :</strong> {{ conf.starting_date }} → {{ conf.ending_date }}</p>
+	<p><strong>Lieu :</strong> {{ conf.city }} ({{ conf.country }})</p>
 
-	{% if conf.conf_associee %}
-		<p><strong>Conférence associée :</strong> {{ conf.conf_associee }}</p>
+	{% if role in ['Admin', 'Responsable'] %}
+	<form method="post" action="{{ url_for('delete_conference', id_conference=conf.id_conference) }}" 
+			onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette conférence ?');">
+		<button type="submit">Supprimer la conférence</button>
+	</form>
+	<form method="get" action="{{ url_for('edit_conference', id_conference=conf.id_conference) }}"
+			style="display:inline;">
+    <button type="submit">Éditer la conférence</button>
+  </form>
 	{% endif %}
 
-	{% if role != "Utilisateur" %}
-		<p><strong>Éditeur :</strong> {{ conf.editor }}</p>
+	{% if workshops.shape[0] > 0 %}
+	<h3>Workshops associés</h3>
+	<table border="1">
+		<tr>
+			{% if role == 'Admin' %}<th>ID</th>{% endif %}
+			<th>Titre</th>
+		</tr>
+		{% for _, w in workshops.iterrows() %}
+		<tr>
+			{% if role == 'Admin' %}<td>{{ w.id_conference }}</td>{% endif %}
+			<td>
+				<a href="{{ url_for('conference_detail', id_conference=w.id_conference) }}">
+					{{ w.title }}
+				</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
 	{% endif %}
 
-	{% if role == "Admin" %}
-		<p><strong>Type :</strong> {{ conf.type }}</p>
-	{% endif %}
 
-	<h3>Introduction :</h3>
-	<p>{{ conf.introduction }}</p>
+	<h3>Sessions</h3>
+	<table border="1">
+		<tr>
+			{% if role == 'Admin' %}
+				<th>ID</th>
+			{% endif %}
+			<th>Title</th>
+			<th>Themes</th>
+			{% if role in ['Admin', 'Responsable'] %}
+				<th>Actions</th>
+			{% endif %}
+		</tr>
+		{% for _, s in sessions.iterrows() %}
+		<tr>
+			{% if role == 'Admin' %}
+				<td>{{ s.id_session }}</td>
+			{% endif %}
+			<td>{{ s.title }}</td>
+			<td>{{ s.themes }}</td>
+			{% if role in ['Admin', 'Responsable'] %}
+				<td>
+					<form method="post" action="{{ url_for('delete_session', id_session=s.id_session) }}"
+								onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette session ?');">
+						<button type="submit">Supprimer</button>
+					</form>
+				</td>
+			{% endif %}
+		</tr>
+		{% endfor %}
+	</table>
 
-	<br>
-	<a href="{{ url_for('back_to_results') }}">← Retour à la recherche</a>
+
+
+	<h3>Responsables</h3>
+	<table border="1">
+		<tr>
+			{% if role == 'Admin' %}
+				<th>ID</th>
+			{% endif %}
+			<th>Nom</th>
+			<th>Prénom</th>
+			<th>Adresse pro</th>
+			<th>Type</th>
+		</tr>
+		{% for _, r in responsables.iterrows() %}
+		<tr>
+			{% if role == 'Admin' %}
+				<td>{{ r.id_responsable }}</td>
+			{% endif %}
+			<td>{{ r.name }}</td>
+			<td>{{ r.first_name }}</td>
+			<td>{{ r.pro_adress }}</td>
+			<td>{{ r.type }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+
+	<h3>Soumissions</h3>
+	<table border="1">
+		<tr>
+			{% if role == 'Admin' %}
+				<th>ID</th>
+			{% endif %}
+			<th>Category</th>
+			<th>Pages</th>
+			<th>Layout</th>
+			<th>Deadline</th>
+			{% if role in ['Admin', 'Responsable'] %}
+				<th>Actions</th>
+			{% endif %}
+		</tr>
+		{% for _, sub in soumissions.iterrows() %}
+		<tr>
+			{% if role == 'Admin' %}
+				<td>{{ sub.id_soumission }}</td>
+			{% endif %}
+			<td>{{ sub.category }}</td>
+			<td>{{ sub.pages_number or '-' }}</td>
+			<td>{{ sub.layout }}</td>
+			<td>{{ sub.deadline }}</td>
+			{% if role in ['Admin', 'Responsable'] %}
+				<td>
+					<form method="post" action="{{ url_for('delete_soumission', id_soumission=sub.id_soumission) }}"
+								onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette soumission ?');">
+						<button type="submit">Supprimer</button>
+					</form>
+				</td>
+			{% endif %}
+		</tr>
+		{% endfor %}
+	</table>
+
+
 </body>
 </html>
