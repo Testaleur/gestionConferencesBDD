@@ -1,5 +1,5 @@
 {% if results is not none %}
-	<h2>Résultats ({{ results|length }}) pour {{  }}:</h2>
+	<h2>Résultats ({{ results|length }}) pour '{{ search_query }}':</h2>
 
 	{% if results|length == 0 %}
 		<p>Aucun résultat trouvé pour cette recherche.</p>
@@ -27,7 +27,11 @@
 					<tr>
 						<td>{{ row.starting_date }}</td>
 						<td>{{ row.ending_date }}</td>
-						<td>{{ row.title }}</td>
+						<td>
+              <a href="{{ url_for('conference_detail', id_conference=row.id_conference) }}">
+                {{ row.title }}
+              </a>
+            </td>
 						<td>{{ row.key_words }}</td>
             <td>{{ row.city }} ({{ row.country }})</td>
             <td>{{ row.universite_name }}</td>

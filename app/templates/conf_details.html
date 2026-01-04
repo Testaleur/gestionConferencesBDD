@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Consultation conférence</title>
+</head>
+<body>
+	<h1>Consultation de conférence</h1>
+
+  <p>Connecté en tant que : <strong>{{ name }}</strong> ({{ role }} | id {{ role }} = {{ user_id }})</p>
+  <a href="{{ url_for('logout') }}">Déconnexion</a>
+  <br><br>
+
+	<h2>{{ conf.title }}</h2>
+	<p><strong>Date :</strong> {{ conf.starting_date }} → {{ conf.ending_date }}</p>
+	<p><strong>Lieu :</strong> {{ conf.city }}, {{ conf.country }}</p>
+	<p><strong>Série :</strong> {{ conf.series }}</p>
+	<p><strong>Mots-clés :</strong> {{ conf.key_words }}</p>
+	<p><strong>Université :</strong> {{ conf.universite_name }}</p>
+
+	{% if conf.conf_associee %}
+		<p><strong>Conférence associée :</strong> {{ conf.conf_associee }}</p>
+	{% endif %}
+
+	{% if role != "Utilisateur" %}
+		<p><strong>Éditeur :</strong> {{ conf.editor }}</p>
+	{% endif %}
+
+	{% if role == "Admin" %}
+		<p><strong>Type :</strong> {{ conf.type }}</p>
+	{% endif %}
+
+	<h3>Introduction :</h3>
+	<p>{{ conf.introduction }}</p>
+
+	<br>
+	<a href="{{ url_for('back_to_results') }}">← Retour à la recherche</a>
+</body>
+</html>

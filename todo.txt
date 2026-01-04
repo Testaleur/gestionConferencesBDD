@@ -1,10 +1,10 @@
 - make the results (and the site) way more beautiful
 - click on results of a request (display details on a person, on a conference)
+- add edit button to conf for a respo / Admin 
+- add a research by the user keaywords / the respo own conferences
 - repasser sur les commentaires, la lisibilité du code
 
-2️⃣ Recherche et consultation des conférences (cœur du site)
-🔹 Recherche par mots-clés
-
+2️⃣ Recherche et consultation des conférences (coeur du site)
 🔹 Filtres simples (checkbox / select)
 
 Type :
