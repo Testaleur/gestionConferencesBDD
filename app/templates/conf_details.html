@@ -159,7 +159,7 @@
 			<td>{{ sub.id_soumission }}</td>
 			{% endif %}
 			<td>{{ sub.category }}</td>
-			<td>{{ sub.pages_number or '-' }}</td>
+			<td>{{ '-' if sub.pages_number is none else sub.pages_number }}</td>
 			<td>{{ sub.layout }}</td>
 			<td>{{ sub.deadline }}</td>
 			{% if role in ['Admin', 'Responsable'] %}

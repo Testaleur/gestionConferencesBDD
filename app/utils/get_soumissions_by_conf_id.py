@@ -8,6 +8,8 @@ def get_soumissions_by_conf_id(DB_PATH, id_conference, role):
   query = get_query_soumissions_by_conf_id(role, id_conference)
 
   df = pd.read_sql(query, conn)
+  df['pages_number'] = df['pages_number'].fillna('-')
+
   conn.close()
 
   if df.empty:
