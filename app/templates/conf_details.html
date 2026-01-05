@@ -2,43 +2,59 @@
 <html>
 <head>
 	<title>Consultation conférence</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 	<h1>Consultation de conférence</h1>
 
-  {% include "profile.html" %}
-	<br><br>
-	<a href="{{ url_for('index') }}">← Retour à la recherche</a>
-	<br><br>
+	<section>
+		{% include "profile.html" %}
+	</section>
 
-	<h2>{{ conf.title }}</h2>
-	<p><strong>Université :</strong> {{ conf.universite_name }}</p>
-	<p><strong>Type :</strong> {{ conf.type }}</p>
-	<p><strong>Conférence associée :</strong>
-		{% if conf.conf_associee %}
-			<a href="{{ url_for('conference_detail', id_conference=conf.associated_conf) }}">
-				{{ conf.conf_associee }}
-			</a>
-		{% else %}
-			-
-		{% endif %}
-	</p>
-	<p><strong>Key words :</strong> {{ conf.key_words }}</p>
-	<p><strong>Éditeur :</strong> {{ conf.editor }}</p>
-	<p><strong>Dates :</strong> {{ conf.starting_date }} → {{ conf.ending_date }}</p>
-	<p><strong>Lieu :</strong> {{ conf.city }} ({{ conf.country }})</p>
+	<section>
+		<a href="{{ url_for('index') }}">← Retour à la recherche</a>
+	</section>
 
-	{% if role in ['Admin', 'Responsable'] %}
-	<form method="post" action="{{ url_for('delete_conference', id_conference=conf.id_conference) }}" 
+	<section>
+		<h2>{{ conf.title }}</h2>
+		{% if role == 'Admin' %}<strong>Id : </strong>{{ conf.id_conference }}{% endif %}
+			<p><strong>Université :</strong> {{ conf.universite_name }}</p>
+			<br>
+			<p><strong>Type :</strong> {{ conf.type }}</p>
+			<br>
+			<p><strong>Conférence associée :</strong>
+				{% if conf.conf_associee %}
+				<a href="{{ url_for('conference_detail', id_conference=conf.associated_conf) }}">
+					{{ conf.conf_associee }}
+				</a>
+				{% else %}
+				-
+				{% endif %}
+			</p>
+			<br>
+			<p><strong>Key words :</strong> {{ conf.key_words }}</p>
+			<br>
+			<p><strong>Éditeur :</strong> {{ conf.editor }}</p>
+			<br>
+			<p><strong>Dates :</strong> {{ conf.starting_date }} → {{ conf.ending_date }}</p>
+			<br>
+			<p><strong>Lieu :</strong> {{ conf.city }} ({{ conf.country }})</p>
+
+			{% if role in ['Admin', 'Responsable'] %}
+			<br>
+			<form method="post" action="{{ url_for('delete_conference', id_conference=conf.id_conference) }}" 
 			onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette conférence ?');">
-		<button type="submit">Supprimer la conférence</button>
-	</form>
-	<form method="get" action="{{ url_for('edit_conference', id_conference=conf.id_conference) }}"
-			style="display:inline;">
-    <button type="submit">Éditer la conférence</button>
-  </form>
-	{% endif %}
+			<button type="submit">Supprimer la conférence</button>
+			</form>
+			<br>
+			<form method="get" action="{{ url_for('edit_conference', id_conference=conf.id_conference) }}"
+				style="display:inline;">
+				<button type="submit">Éditer la conférence</button>
+			</form>
+		{% endif %}
+	</section>
 
+	<section>
 	{% if workshops.shape[0] > 0 %}
 	<h3>Workshops associés</h3>
 	<table border="1">
@@ -58,100 +74,106 @@
 		{% endfor %}
 	</table>
 	{% endif %}
+</section>
 
+<section>
 
 	<h3>Sessions</h3>
 	<table border="1">
 		<tr>
 			{% if role == 'Admin' %}
-				<th>ID</th>
+			<th>ID</th>
 			{% endif %}
 			<th>Title</th>
 			<th>Themes</th>
 			{% if role in ['Admin', 'Responsable'] %}
-				<th>Actions</th>
+			<th>Actions</th>
 			{% endif %}
-		</tr>
-		{% for _, s in sessions.iterrows() %}
-		<tr>
-			{% if role == 'Admin' %}
-				<td>{{ s.id_session }}</td>
-			{% endif %}
-			<td>{{ s.title }}</td>
-			<td>{{ s.themes }}</td>
-			{% if role in ['Admin', 'Responsable'] %}
-				<td>
-					<form method="post" action="{{ url_for('delete_session', id_session=s.id_session) }}"
-								onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette session ?');">
-						<button type="submit">Supprimer</button>
-					</form>
-				</td>
-			{% endif %}
-		</tr>
-		{% endfor %}
-	</table>
+	</tr>
+	{% for _, s in sessions.iterrows() %}
+	<tr>
+		{% if role == 'Admin' %}
+		<td>{{ s.id_session }}</td>
+		{% endif %}
+		<td>{{ s.title }}</td>
+		<td>{{ s.themes }}</td>
+		{% if role in ['Admin', 'Responsable'] %}
+		<td>
+			<form method="post" action="{{ url_for('delete_session', id_session=s.id_session) }}"
+			onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette session ?');">
+			<button type="submit">Supprimer</button>
+		</form>
+	</td>
+	{% endif %}
+</tr>
+{% endfor %}
+</table>
+</section>
+	
+	<section>
 
-
-
-	<h3>Responsables</h3>
-	<table border="1">
-		<tr>
-			{% if role == 'Admin' %}
+		<h3>Responsables</h3>
+		<table border="1">
+			<tr>
+				{% if role == 'Admin' %}
 				<th>ID</th>
-			{% endif %}
-			<th>Nom</th>
-			<th>Prénom</th>
-			<th>Adresse pro</th>
-			<th>Type</th>
-		</tr>
-		{% for _, r in responsables.iterrows() %}
-		<tr>
-			{% if role == 'Admin' %}
+				{% endif %}
+				<th>Nom</th>
+				<th>Prénom</th>
+				<th>Adresse pro</th>
+				<th>Type</th>
+			</tr>
+			{% for _, r in responsables.iterrows() %}
+			<tr>
+				{% if role == 'Admin' %}
 				<td>{{ r.id_responsable }}</td>
-			{% endif %}
-			<td>{{ r.person_name }}</td>
-			<td>{{ r.first_name }}</td>
-			<td>{{ r.pro_adress }}</td>
-			<td>{{ r.type }}</td>
-		</tr>
-		{% endfor %}
-	</table>
+				{% endif %}
+				<td>{{ r.person_name }}</td>
+				<td>{{ r.first_name }}</td>
+				<td>{{ r.pro_adress }}</td>
+				<td>{{ r.type }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+	</section>
+		
+		<section>
 
-
-	<h3>Soumissions</h3>
-	<table border="1">
-		<tr>
-			{% if role == 'Admin' %}
-				<th>ID</th>
-			{% endif %}
-			<th>Category</th>
-			<th>Pages</th>
-			<th>Layout</th>
-			<th>Deadline</th>
-			{% if role in ['Admin', 'Responsable'] %}
-				<th>Actions</th>
-			{% endif %}
+			<h3>Soumissions</h3>
+			<table border="1">
+				<tr>
+					{% if role == 'Admin' %}
+					<th>ID</th>
+					{% endif %}
+					<th>Category</th>
+					<th>Pages</th>
+					<th>Layout</th>
+					<th>Deadline</th>
+					{% if role in ['Admin', 'Responsable'] %}
+					<th>Actions</th>
+					{% endif %}
 		</tr>
 		{% for _, sub in soumissions.iterrows() %}
 		<tr>
 			{% if role == 'Admin' %}
-				<td>{{ sub.id_soumission }}</td>
+			<td>{{ sub.id_soumission }}</td>
 			{% endif %}
 			<td>{{ sub.category }}</td>
 			<td>{{ sub.pages_number or '-' }}</td>
 			<td>{{ sub.layout }}</td>
 			<td>{{ sub.deadline }}</td>
 			{% if role in ['Admin', 'Responsable'] %}
-				<td>
-					<form method="post" action="{{ url_for('delete_soumission', id_soumission=sub.id_soumission) }}"
-								onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette soumission ?');">
-						<button type="submit">Supprimer</button>
-					</form>
-				</td>
-			{% endif %}
-		</tr>
-		{% endfor %}
-	</table>
+			<td>
+				<form method="post" action="{{ url_for('delete_soumission', id_soumission=sub.id_soumission) }}"
+				onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette soumission ?');">
+				<button type="submit">Supprimer</button>
+			</form>
+		</td>
+		{% endif %}
+	</tr>
+	{% endfor %}
+</table>
+</section>
 
 
 </body>

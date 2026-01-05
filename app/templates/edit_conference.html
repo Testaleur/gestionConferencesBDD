@@ -1,20 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Éditer la conférence</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
 <h1>Éditer la conférence</h1>
-{% include "profile.html" %}
-<br><br>
-<a href="{{ url_for('index') }}">← Retour à la recherche</a>
-<br><br>
+<section>
+  {% include "profile.html" %}
+</section>
+<section>
+  <a href="{{ url_for('index') }}">← Retour à la recherche</a>
+  <br>
+  <a href="{{ url_for('conference_detail', id_conference=conference['id_conference']) }}">← Retour à la conférence</a>
+</section>
+<section>
 
-<form method="post">
-  Titre: <input type="text" name="title" value="{{ conference['title'] }}"><br>
-  Début: <input type="date" name="starting_date" value="{{ conference['starting_date'] }}"><br>
-  Fin: <input type="date" name="ending_date" value="{{ conference['ending_date'] }}"><br>
-  Ville: <input type="text" name="city" value="{{ conference['city'] }}"><br>
-  Pays: <input type="text" name="country" value="{{ conference['country'] }}"><br>
-  Série: <input type="text" name="series" value="{{ conference['series'] }}"><br>
-  Introduction: <textarea name="introduction">{{ conference['introduction'] }}</textarea><br>
-  Mots-clés: <input type="text" name="key_words" value="{{ conference['key_words'] }}"><br>
-  Éditeur: <input type="text" name="editor" value="{{ conference['editor'] }}"><br>
-
-  <button type="submit">Enregistrer</button>
-</form>
-<a href="{{ url_for('conference_detail', id_conference=conference['id_conference']) }}">Retour</a>
+  <form method="post">
+    Titre: <input type="text" name="title" value="{{ conference['title'] }}"><br>
+    Début: <input type="date" name="starting_date" value="{{ conference['starting_date'] }}"><br>
+    Fin: <input type="date" name="ending_date" value="{{ conference['ending_date'] }}"><br>
+    Ville: <input type="text" name="city" value="{{ conference['city'] }}"><br>
+    Pays: <input type="text" name="country" value="{{ conference['country'] }}"><br>
+    Série: <input type="text" name="series" value="{{ conference['series'] }}"><br>
+    Introduction: <textarea name="introduction">{{ conference['introduction'] }}</textarea><br>
+    Mots-clés: <input type="text" name="key_words" value="{{ conference['key_words'] }}"><br>
+    Éditeur: <input type="text" name="editor" value="{{ conference['editor'] }}"><br>
+    
+    <button type="submit">Enregistrer</button>
+  </form>
+</section>
+</body>
+</html>

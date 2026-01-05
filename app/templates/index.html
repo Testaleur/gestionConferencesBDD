@@ -2,24 +2,35 @@
 <html>
 <head>
   <title>Recherche conférences</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
+
 <body>
+
   <h1>Gestionnaire de conférences</h1>
 
-  {% include "profile.html" %}
-  <br><br>
+  <section>
+    {% include "profile.html" %}
+  </section>
 
-  {% include "upcoming.html" %}
-  <br><br>
+  <section>
+    {% include "upcoming.html" %}
+  </section>
 
-  <h2>Statistiques des conférences</h2>
-  <a href="{{ url_for('statistiques') }}">Voir les statistiques</a>
-  <br><br>
+  <section>
+    <h2>Statistiques des conférences</h2>
+    <a href="{{ url_for('statistiques') }}">Voir les statistiques</a>
+  </section>
 
-  {% include "recherche.html" %}
+  <section>
+    {% include "recherche.html" %}
+  </section>
 
-  {% include "render.html" %}
+  <section>
+    {% include "render.html" %}
+  </section>
+
 
   <script>
     function fillWithProfile() {

@@ -2,36 +2,40 @@
 <html>
 <head>
     <title>Connexion</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Connexion à l'application</h1>
-    {% if error %}
+    <section>
+
+        <h1>Connexion à l'application</h1>
+        {% if error %}
         <p style="color:red">{{ error }}</p>
-    {% endif %}
-    <form method="post">
-        <label for="role">Rôle :</label>
-        <select name="role" id="role" onchange="toggleIdField()">
-            <option value="Utilisateur">Utilisateur</option>
-            <option value="Responsable">Responsable</option>
-            <option value="Admin">Administrateur</option>
-        </select>
-        <br><br>
-
-        <div id="id_field">
-            <label for="user_id">ID :</label>
-            <input type="text" name="user_id" placeholder="Votre ID">
+        {% endif %}
+        <form method="post">
+            <label for="role">Rôle :</label>
+            <select name="role" id="role" onchange="toggleIdField()">
+                <option value="Utilisateur">Utilisateur</option>
+                <option value="Responsable">Responsable</option>
+                <option value="Admin">Administrateur</option>
+            </select>
             <br><br>
-        </div>
-
-        <label for="password">Mot de passe :</label>
-        <input type="password" name="password">
-        <br>
-        <small>Le mot de passe est toujours 'bdd'.</small>
-        <br><br>
-
-        <input type="submit" value="Se connecter">
-    </form>
-
+            
+            <div id="id_field"> 
+                <label for="user_id">ID :</label>
+                <input type="text" name="user_id" placeholder="Votre ID">
+                <br><br>
+            </div>
+            
+            <label for="password">Mot de passe :</label>
+            <input type="password" name="password">
+            <br>
+            <small>Le mot de passe est toujours 'bdd'.</small>
+            <br><br>
+            
+            <input type="submit" value="Se connecter">
+        </form>
+    </section>
+        
     <script>
         function toggleIdField() {
             var role = document.getElementById("role").value;
