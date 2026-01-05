@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+from utils.upcoming import get_upcoming
 from utils.get_conferences import get_conferences_by_keywords, get_conferences_by_responsable
 from utils.get_user_infos import get_user_name, get_user_profile
 from utils.get_conf_by_id import get_conf_by_id
@@ -8,7 +9,7 @@ from utils.get_workshops_by_conf_id import get_workshops_by_conf_id
 from utils.get_soumissions_by_conf_id import get_soumissions_by_conf_id
 from utils.delete_from_base import delete_conference_from_base, delete_session_from_base, delete_soumission_from_base
 from utils.edit_from_base import edit_conference_from_base, get_conf_without_edit
-from utils.get_stats import get_stats_activity, get_stats_pays, get_stats_serie, get_stats_workshops
+from utils.get_stats import get_stats_activity, get_stats_by_universite, get_stats_pays, get_stats_serie, get_stats_total_conferences, get_stats_workshops, get_stats_workshops_vs_conferences
 from config import PASSWORD, DB_PATH
 
 app = Flask(__name__)
@@ -68,8 +69,11 @@ def logout():
 def index():
   if 'role' not in session:
     return redirect(url_for("login"))
+  role = session["role"]
 
   results = None
+  upcoming = None
+
   if request.method == "POST": # recherche par keywords
     search_query = request.form.get("keywords", "")
     filters = {
@@ -84,8 +88,9 @@ def index():
     if search_query or filters:
       session["last_search"] = search_query
       session["last_filters"] = filters
-      results = get_conferences_by_keywords(DB_PATH, session['role'], search_query, filters)
+      results = get_conferences_by_keywords(DB_PATH, role, search_query, filters)
 
+  upcoming = get_upcoming(role)
   return render_template(
      "index.html", 
      results=results, 
@@ -94,7 +99,8 @@ def index():
      user_id=session['user_id'],
      search_query=session['last_search'],
      filters=session["last_filters"],
-     profile=session["profile"]
+     profile=session["profile"],
+     upcoming=upcoming
     )
 
 # recherche par conférences du responsable
@@ -120,7 +126,8 @@ def search_responsable_confs():
     user_id=session['user_id'],
     search_query="Mes conférences",
     filters={},
-    profile=session["profile"]
+    profile=session["profile"],
+    upcoming=get_upcoming(role)
   )
 
 # open conference informations
@@ -168,7 +175,8 @@ def back_to_results():
     user_id=session['user_id'],
     search_query=session['last_search'],
     filters=session["last_filters"],
-    profile=session["profile"]
+    profile=session["profile"],
+    upcoming=get_upcoming(role)
   )
 
 # delete conference
@@ -229,14 +237,21 @@ def statistiques():
   df_serie = get_stats_serie()
   df_workshops = get_stats_workshops()
   df_activity = get_stats_activity()
+  df_total = get_stats_total_conferences()
+  df_type = get_stats_workshops_vs_conferences()
+  df_universite = get_stats_by_universite()
 
   return render_template(
     "statistiques.html",
     df_pays=df_pays,
     df_serie=df_serie,
     df_workshops=df_workshops,
-    df_activity=df_activity
+    df_activity=df_activity,
+    df_total=df_total,
+    df_type=df_type,
+    df_universite=df_universite
   )
+
 
 if __name__ == "__main__":
   app.run(debug=True)

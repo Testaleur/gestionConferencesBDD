@@ -1,0 +1,37 @@
+<h2>Découvrez les prochaines conférences</h2>
+{% if upcoming is not none and not upcoming.empty %}
+<table border="1">
+<tr>
+    {% if role == 'Admin' %}
+    <th>ID</th>
+    {% endif %}
+    <th>Title</th>
+    <th>Starting Date</th>
+    <th>City</th>
+    <th>Country</th>
+    <th>Series</th>
+    <th>University</th>
+</tr>
+
+{% for _, row in upcoming.iterrows() %}
+<tr>
+    {% if role == 'Admin' %}
+    <td>{{ row.id_conference }}</td>
+    {% endif %}
+    <td>
+      <a href="{{ url_for('conference_detail', id_conference=row.id_conference) }}">
+        {{ row.title }}
+      </a>
+    </td>
+    <td>{{ row.starting_date }}</td>
+    <td>{{ row.city }}</td>
+    <td>{{ row.country }}</td>
+    <td>{{ row.series if row.series else '-' }}</td>
+    <td>{{ row.universite_name if row.universite_name else '-' }}</td>
+</tr>
+{% endfor %}
+</table>
+
+{% else %}
+<p>Aucune conférence à venir.</p>
+{% endif %}

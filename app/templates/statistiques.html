@@ -8,6 +8,29 @@
 <a href="{{ url_for('index') }}">Retour à l'accueil</a>
 <br><br>
 
+<!-- <h2>Nombre tosotal_conferences.values[0] }}</p> -->
+
+<h2>Nombre d'événements</h2>
+<table border="1">
+  <tr><th>Workshops</th><th>Conférences</th></tr>
+  <tr>
+    <td>{{ df_type.nb_workshops.values[0] }}</td>
+    <td>{{ df_type.nb_conferences.values[0] }}</td>
+  </tr>
+</table>
+
+<h2>Universités les plus actives</h2>
+<table border="1">
+  <tr><th>Université</th><th>Nombre de conférences</th></tr>
+  {% for _, row in df_universite.iterrows() %}
+  <tr>
+    <td>{{ row.universite }}</td>
+    <td>{{ row.nb_conferences }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+
 <h2>Nombre de conférences par pays</h2>
 <table border="1">
     <tr>

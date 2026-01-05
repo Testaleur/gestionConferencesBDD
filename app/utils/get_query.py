@@ -1,5 +1,143 @@
 from utils.get_view import get_conference_view
 
+######################
+####### DELETE #######
+######################
+def get_query_delete_by_conf(table):
+  return f"""
+    DELETE FROM {table} WHERE id_conference = ?
+  """
+
+def get_query_delete_by_session(table):
+  return f"""
+    DELETE FROM {table} WHERE id_session = ?
+  """
+
+def get_query_delete_by_soumission(table):
+  return f"""
+    DELETE FROM {table} WHERE id_soumission = ?
+  """
+
+######################
+####### UPDATE #######
+######################
+def get_query_update_conf():
+  return """
+    UPDATE conference
+    SET title = ?, starting_date = ?, ending_date = ?, city = ?, country = ?,
+      series = ?, introduction = ?, key_words = ?, editor = ?
+    WHERE id_conference = ?
+  """
+
+######################
+####### SELECT #######
+######################
+def get_query_conf_by_id():
+  return """
+  SELECT * FROM conference WHERE id_conference = ?
+  """
+
+def get_query_stats_pays():
+  return """
+    SELECT country, COUNT(*) AS nb_conferences
+    FROM conference
+    GROUP BY country
+    ORDER BY nb_conferences DESC
+  """
+
+def get_query_stats_serie():
+  return"""
+    SELECT series, COUNT(*) AS nb_conferences
+    FROM conference
+    GROUP BY series
+    ORDER BY nb_conferences DESC
+  """
+
+def get_query_stats_workshops():
+  return """
+    SELECT c.title, COUNT(*) AS nb_workshops
+    FROM conference c
+    LEFT JOIN conference w ON w.associated_conf = c.id_conference
+    WHERE w.type = 'Workshop'
+    GROUP BY c.id_conference
+    ORDER BY nb_workshops DESC
+  """
+
+def get_query_stats_activity():
+  return """
+    SELECT c.title,
+      COUNT(DISTINCT s.id_session) AS nb_sessions,
+      COUNT(DISTINCT sub.id_soumission) AS nb_soumissions,
+      (COUNT(DISTINCT s.id_session) + COUNT(DISTINCT sub.id_soumission)) AS total_activity
+    FROM conference c
+    LEFT JOIN session s ON s.id_conference = c.id_conference
+    LEFT JOIN soumission sub ON sub.id_conference = c.id_conference
+    GROUP BY c.id_conference
+    ORDER BY total_activity DESC
+  """
+
+def get_query_stats_confs():
+  return """
+  SELECT COUNT(*) AS total_conferences FROM conference;"""
+
+def get_query_stats_workshops_vs_conf():
+  return """
+  SELECT 
+    SUM(CASE WHEN type='Workshop' THEN 1 ELSE 0 END) AS nb_workshops,
+    SUM(CASE WHEN type='Conference' THEN 1 ELSE 0 END) AS nb_conferences
+  FROM conference;
+  """
+
+def get_query_stats_universite():
+  return """
+  SELECT u.name AS universite, COUNT(c.id_conference) AS nb_conferences
+  FROM conference c
+  LEFT JOIN universite u ON c.id_universite = u.id_universite
+  GROUP BY u.name
+  ORDER BY nb_conferences DESC;
+  """
+
+def get_query_name_user():
+  return """
+  SELECT p.name, p.first_name 
+  FROM utilisateur u 
+  JOIN personne p 
+  ON u.id_personne=p.id_personne 
+  WHERE u.id_user=?"""
+
+def get_query_name_respo():
+  return """
+  SELECT p.name, p.first_name 
+  FROM responsable r 
+  JOIN personne p 
+  ON r.id_personne=p.id_personne 
+  WHERE r.id_responsable=?"""
+
+def get_query_user_profile():
+  return """
+  SELECT profile 
+  FROM utilisateur 
+  WHERE id_user=?"""
+
+def get_query_upcoming(role):
+  view = get_conference_view(role)
+  return f"""
+    SELECT c.id_conference,
+      c.title,
+      c.starting_date,
+      c.city,
+      c.country,
+      c.series,
+      u.name AS universite_name,
+      c2.title AS conf_associee
+    FROM {view} c
+    LEFT JOIN universite u ON c.id_universite = u.id_universite
+    LEFT JOIN conference c2 ON c.associated_conf = c2.id_conference
+    WHERE DATE(c.starting_date) >= DATE('now')
+    ORDER BY DATE(c.starting_date) ASC
+    LIMIT 3;
+    """
+
 def get_query_by_id(role, id_conference):
   view = get_conference_view(role)
 

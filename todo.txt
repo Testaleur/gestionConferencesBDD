@@ -1,19 +1,10 @@
-- Statistiques simples
-nombre de conférences par :
-pays
-série
-type
-nombre de workshops par conférence
-nombre de responsables par conférence
-conférences les plus actives (soumissions / sessions)
-
-- onglet "news" - 3 prochaines conférences
-- onglet "pour vous" - 3 conférences futures qui pourraient vous intéresser
+- group queries (select)
 - make the results (and the site) way more beautiful
 - repasser sur les commentaires, la lisibilité du code
 
 ==============
-to do (hors projet) à mettre dans rapport
+to do (hors projet) à mettre dans rapport ET SURTOUT PRÉCISER LES REQUETES QU'ON AURAIT UTILISÉES
+- onglet "pour vous" - 3 conférences futures qui pourraient vous intéresser
 - edit profile (for users)
 - option de lier un workshop à une conf
 - option de créer une conf en tant que respo

@@ -1,5 +1,7 @@
 import sqlite3
 
+from utils.get_query import get_query_conf_by_id, get_query_update_conf
+
 def edit_conference_from_base(DB_PATH, id_conference, request):
   conn = sqlite3.connect(DB_PATH)
   conn.row_factory = sqlite3.Row
@@ -16,12 +18,9 @@ def edit_conference_from_base(DB_PATH, id_conference, request):
     key_words = request.form["key_words"]
     editor = request.form["editor"]
 
-    cursor.execute("""
-      UPDATE conference
-      SET title = ?, starting_date = ?, ending_date = ?, city = ?, country = ?,
-        series = ?, introduction = ?, key_words = ?, editor = ?
-      WHERE id_conference = ?
-    """, (title, starting_date, ending_date, city, country,
+    query = get_query_update_conf()
+
+    cursor.execute(query, (title, starting_date, ending_date, city, country,
       series, introduction, key_words, editor,
       id_conference))
     conn.commit()
@@ -34,7 +33,7 @@ def get_conf_without_edit(DB_PATH, id_conference):
   conn = sqlite3.connect(DB_PATH)
   conn.row_factory = sqlite3.Row
   cursor = conn.cursor()
-  cursor.execute("SELECT * FROM conference WHERE id_conference = ?", (id_conference,))
+  cursor.execute(get_query_conf_by_id(), (id_conference,))
   conference = cursor.fetchone()
   conn.close()
   return conference
