@@ -10,7 +10,7 @@ Dossier : `/base_main_handlers`
 Utiliser le fichier : `requetes.ipynb`
 
 ---
-
+à utiliser dans l'ordre :
 ## Partie Base de Données
 Se rendre dans le dossier : `/base_main_handlers`
 
@@ -25,6 +25,9 @@ Se rendre dans le dossier : `/base_main_handlers`
 
 ### Exemples de requêtes
 - Fichier : `requetes.ipynb`
+
+### Si besoin (avant de recommencer les étapes précédentes): vider la base
+- Fichier : `utils.empty_base.ipynb` ou `utils.empty_table.ipynb`
 
 ---
 
