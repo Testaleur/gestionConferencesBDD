@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Statistiques des conférences</title>
+</head>
+<body>
+<h1>Statistiques des conférences</h1>
+<a href="{{ url_for('index') }}">Retour à l'accueil</a>
+<br><br>
+
+<h2>Nombre de conférences par pays</h2>
+<table border="1">
+    <tr>
+        <th>Pays</th>
+        <th>Nombre de conférences</th>
+    </tr>
+    {% for _, row in df_pays.iterrows() %}
+    <tr>
+        <td>{{ row.country }}</td>
+        <td>{{ row.nb_conferences }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Nombre de conférences par série</h2>
+<table border="1">
+  <tr>
+      <th>Série</th>
+      <th>Nombre de conférences</th>
+  </tr>
+  {% for _, row in df_serie.iterrows() %}
+    {% if row.series %}
+    <tr>
+      <td>{{ row.series }}</td>
+      <td>{{ row.nb_conferences }}</td>
+    </tr>
+    {% endif %}
+  {% endfor %}
+
+</table>
+
+<h2>Top 3 - Nombre de workshops par conférence</h2>
+<table border="1">
+    <tr>
+        <th>Conférence</th>
+        <th>Nombre de workshops</th>
+    </tr>
+    {% for _, row in df_workshops.head(3).iterrows() %}
+    <tr>
+        <td>{{ row.title }}</td>
+        <td>{{ row.nb_workshops }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Top 3 - Conférences les plus actives (sessions + soumissions)</h2>
+<table border="1">
+  <tr>
+    <th>Conférence</th>
+    <th>Sessions</th>
+    <th>Soumissions</th>
+    <th>Total activité</th>
+  </tr>
+  {% for _, row in df_activity.head(3).iterrows() %}
+  <tr>
+    <td>{{ row.title }}</td>
+    <td>{{ row.nb_sessions }}</td>
+    <td>{{ row.nb_soumissions }}</td>
+    <td>{{ row.total_activity }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+</body>
+</html>

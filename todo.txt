@@ -7,6 +7,8 @@ nombre de workshops par conférence
 nombre de responsables par conférence
 conférences les plus actives (soumissions / sessions)
 
+- onglet "news" - 3 prochaines conférences
+- onglet "pour vous" - 3 conférences futures qui pourraient vous intéresser
 - make the results (and the site) way more beautiful
 - repasser sur les commentaires, la lisibilité du code
 
