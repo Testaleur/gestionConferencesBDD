@@ -5,18 +5,32 @@
 </head>
 
 <body>
-  <h1>Recherche de conférences</h1>
+  <h1>Gestionnaire de conférences</h1>
 
-  <p>Connecté en tant que : <strong>{{ name }}</strong> ({{ role }} | id {{ role }} = {{ user_id }})</p>
-  <a href="{{ url_for('logout') }}">Déconnexion</a>
+  {% include "profile.html" %}
   <br><br>
 
-  <form method="post">
+  <h2>Recherche de conférences</h2>
 
-    <!-- Recherche par mots-clés -->
-    <input type="text" name="keywords" placeholder="Mots-clés"
+  <!-- Recherche par les conférences du responsable -->
+  {% if role == 'Responsable' %}
+    <form method="post" action="{{ url_for('search_responsable_confs') }}">
+      <input type="submit" value="Rechercher mes conférences">
+    </form>
+  {% endif %}
+  <br>
+
+  <!-- Recherche par mots-clés -->
+  <form method="post">
+    <input type="text" id="keywords" name="keywords" placeholder="Mots-clés"
       value="{{ filters.keywords if filters and filters.keywords }}">
+    {% if role == 'Utilisateur' %}
+      <button type = "button" onclick="fillWithProfile()">Remplir avec votre profil utilisateur</button>
+    {% endif %}
+    
+    <br>
     <small>(exemple : bases data spatial)</small>
+    <br>
 
     <br>
     <!-- Type -->
@@ -71,6 +85,13 @@
 
 
   {% include "render.html" %}
+
+  <script>
+    function fillWithProfile() {
+      const input = document.getElementById("keywords")
+      input.value = "{{ profile }}"
+    }
+  </script>
 
 </body>
 </html>

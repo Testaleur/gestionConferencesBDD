@@ -1,5 +1,3 @@
-- factor connecté en tant que / déco
-- add a research by the user profile / the respo own conferences
 - Statistiques simples
 nombre de conférences par :
 pays
@@ -19,3 +17,4 @@ to do (hors projet) à mettre dans rapport
 - option de créer une conf en tant que respo
 - edit soumissions, sessions en tant que respo
 - gestion des mots de passe / comptes
+- pb lorsque retour sur la page pour préremplir filtres

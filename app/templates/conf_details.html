@@ -6,9 +6,8 @@
 <body>
 	<h1>Consultation de conférence</h1>
 
-  <p>Connecté en tant que : <strong>{{ name }}</strong> ({{ role }} | id {{ role }} = {{ user_id }})</p>
-  <a href="{{ url_for('logout') }}">Déconnexion</a>
-  <br><br>
+  {% include "profile.html" %}
+	<br><br>
 	<a href="{{ url_for('index') }}">← Retour à la recherche</a>
 	<br><br>
 

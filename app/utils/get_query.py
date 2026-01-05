@@ -88,6 +88,20 @@ def get_query_by_role_keywords(role, words, filters=None):
 
   return query_base, params_extra
 
+def get_query_by_role_respo(role):
+  view = get_conference_view(role)
+
+  query = f"""
+      SELECT c.*, u.name AS universite_name, c2.title AS conf_associee
+      FROM {view} c
+      LEFT JOIN universite u ON c.id_universite = u.id_universite
+      LEFT JOIN conference c2 ON c.associated_conf = c2.id_conference
+      JOIN direction d ON c.id_conference = d.id_conference
+      WHERE d.id_responsable = ?
+      ORDER BY c.starting_date DESC;
+  """
+  return query
+
 def get_query_session_by_conf_id(role, id_conference):
   return f"""
 		SELECT s.*

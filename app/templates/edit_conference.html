@@ -1,9 +1,8 @@
 <h2>Éditer la conférence</h2>
 <br>
-<p>Connecté en tant que : <strong>{{ name }}</strong> ({{ role }} | id {{ role }} = {{ user_id }})</p>
-  <a href="{{ url_for('logout') }}">Déconnexion</a>
+  {% include "profile.html" %}
   <br><br>
-	<a href="{{ url_for('back_to_results') }}">← Retour à la recherche</a>
+	<a href="{{ url_for('index') }}">← Retour à la recherche</a>
 	<br><br>
 
 <form method="post">

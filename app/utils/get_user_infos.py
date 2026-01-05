@@ -1,4 +1,5 @@
 import sqlite3
+from utils.process_words import process_profile
 DB_PATH = "../gestionConferences.db"
 
 # récupérer le nom associé à l'ID
@@ -22,3 +23,19 @@ def get_user_name(role, user_id):
   
   conn.close()
   return name
+
+def get_user_profile(user_id):
+  conn = sqlite3.connect(DB_PATH)
+  cursor = conn.cursor()
+  profile = None
+
+  cursor.execute("SELECT profile FROM utilisateur WHERE id_user=?", (user_id,))
+  row = cursor.fetchone()
+
+  if row:
+    profile = row[0] # to do : process_profile(row[0])
+  else :
+    profile = ""
+    
+  conn.close()
+  return profile

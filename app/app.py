@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from utils.get_conferences import get_conferences_by_keywords
-from utils.get_user_infos import get_user_name
+from utils.get_conferences import get_conferences_by_keywords, get_conferences_by_responsable
+from utils.get_user_infos import get_user_name, get_user_profile
 from utils.get_conf_by_id import get_conf_by_id
 from utils.get_sessions_by_conf_id import get_sessions_by_conf_id
 from utils.get_responsables_by_conf_id import get_responsables_by_conf_id
@@ -34,6 +34,7 @@ def login():
         session['name'] = "Administrateur"
         session["last_search"] = ""
         session["last_filters"] = {}
+        session["profile"] = ""
         return redirect(url_for("index"))
       elif user_id and user_id.isdigit():
         name = get_user_name(role, int(user_id))
@@ -44,12 +45,16 @@ def login():
           session['name'] = name
           session["last_search"] = ""
           session["last_filters"] = {}
+          if role == "Utilisateur":
+            profile = get_user_profile(int(user_id))
+            session["profile"] = profile
+          else :
+            session["profile"] = "" 
           return redirect(url_for("index"))
         else:
           error = f"ID {user_id} introuvable pour le rôle {role}"
       else:
           error = "Veuillez entrer un ID valide"
-
   return render_template("login.html", error=error)
 # déconnexion
 @app.route("/logout")
@@ -64,7 +69,7 @@ def index():
     return redirect(url_for("login"))
 
   results = None
-  if request.method == "POST":
+  if request.method == "POST": # recherche par keywords
     search_query = request.form.get("keywords", "")
     filters = {
       "type": request.form.getlist("type"),
@@ -87,8 +92,35 @@ def index():
      name=session['name'], 
      user_id=session['user_id'],
      search_query=session['last_search'],
-     filters=session["last_filters"]
+     filters=session["last_filters"],
+     profile=session["profile"]
     )
+
+# recherche par conférences du responsable
+@app.route("/search_responsable_confs", methods=["POST"])
+def search_responsable_confs():
+  if "role" not in session or session["role"] != "Responsable":
+    return redirect(url_for("index"))
+
+  id_responsable = session["user_id"]
+  role = session["role"]
+
+  results = get_conferences_by_responsable(DB_PATH, id_responsable, role)
+
+  session["last_search"] = ""
+  session["last_filters"] = {}
+  session["last_role"] = role
+
+  return render_template(
+    "index.html",
+    results=results,
+    role=role,
+    name=session['name'],
+    user_id=session['user_id'],
+    search_query="Mes conférences",
+    filters={},
+    profile=session["profile"]
+  )
 
 # open conference informations
 @app.route("/conference/<int:id_conference>")
@@ -134,7 +166,8 @@ def back_to_results():
     name=session['name'], 
     user_id=session['user_id'],
     search_query=session['last_search'],
-    filters=session["last_filters"]
+    filters=session["last_filters"],
+    profile=session["profile"]
   )
 
 # delete conference
