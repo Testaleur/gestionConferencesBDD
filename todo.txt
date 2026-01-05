@@ -1,3 +1,4 @@
+- factor connecté en tant que / déco
 - add a research by the user profile / the respo own conferences
 - Statistiques simples
 nombre de conférences par :

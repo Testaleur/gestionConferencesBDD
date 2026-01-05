@@ -16,41 +16,41 @@ app.secret_key = "secretkey"
 # login page
 @app.route("/", methods=["GET", "POST"])
 def login():
-    error = None
-    if request.method == "POST":
-        role = request.form.get("role")
-        user_id = request.form.get("user_id")  # peut être vide si Admin
-        password = request.form.get("password")
+  error = None
+  if request.method == "POST":
+    role = request.form.get("role")
+    user_id = request.form.get("user_id")  # peut être vide si Admin
+    password = request.form.get("password")
 
-        # Vérification mot de passe
-        if password != PASSWORD:
-            error = "Mot de passe incorrect"
+    # Vérification mot de passe
+    if password != PASSWORD:
+      error = "Mot de passe incorrect"
+    else:
+      # Vérification de l'existence de l'ID
+      if role == "Admin":
+        session['role'] = role
+        session['last_role'] = role
+        session['user_id'] = 0
+        session['name'] = "Administrateur"
+        session["last_search"] = ""
+        session["last_filters"] = {}
+        return redirect(url_for("index"))
+      elif user_id and user_id.isdigit():
+        name = get_user_name(role, int(user_id))
+        if name:
+          session['role'] = role
+          session['last_role'] = role
+          session['user_id'] = int(user_id)
+          session['name'] = name
+          session["last_search"] = ""
+          session["last_filters"] = {}
+          return redirect(url_for("index"))
         else:
-            # Vérification de l'existence de l'ID
-            if role == "Admin":
-                session['role'] = role
-                session['last_role'] = role
-                session['user_id'] = 0
-                session['name'] = "Administrateur"
-                session["last_search"] = ""
-                session["last_filters"] = {}
-                return redirect(url_for("index"))
-            elif user_id and user_id.isdigit():
-                name = get_user_name(role, int(user_id))
-                if name:
-                    session['role'] = role
-                    session['last_role'] = role
-                    session['user_id'] = int(user_id)
-                    session['name'] = name
-                    session["last_search"] = ""
-                    session["last_filters"] = {}
-                    return redirect(url_for("index"))
-                else:
-                    error = f"ID {user_id} introuvable pour le rôle {role}"
-            else:
-                error = "Veuillez entrer un ID valide"
+          error = f"ID {user_id} introuvable pour le rôle {role}"
+      else:
+          error = "Veuillez entrer un ID valide"
 
-    return render_template("login.html", error=error)
+  return render_template("login.html", error=error)
 # déconnexion
 @app.route("/logout")
 def logout():
